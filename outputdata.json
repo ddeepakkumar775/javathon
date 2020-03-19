@@ -1,0 +1,53 @@
+[
+    {
+        "id": 4,
+        "ohrId": 100,
+        "parentOhrId": 0,
+        "name": "Ansul",
+        "role": "adm",
+        "listEmployeeWise": [
+            {
+                "id": 2,
+                "ohrId": 500,
+                "parentOhrId": 100,
+                "name": "Shariff",
+                "role": "coe",
+                "listEmployeeWise": [
+                    {
+                        "id": 3,
+                        "ohrId": 705,
+                        "parentOhrId": 500,
+                        "name": "Subhas",
+                        "role": "spoc",
+                        "listEmployeeWise": [
+                            {
+                                "id": 1,
+                                "ohrId": 700,
+                                "parentOhrId": 705,
+                                "name": "Deepak Kumar",
+                                "role": "dev",
+                                "listEmployeeWise": []
+                            },
+                            {
+                                "id": 5,
+                                "ohrId": 701,
+                                "parentOhrId": 705,
+                                "name": "Sowmya",
+                                "role": "dev",
+                                "listEmployeeWise": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": 6,
+                        "ohrId": 702,
+                        "parentOhrId": 500,
+                        "name": "Ashok",
+                        "role": "spoc",
+                        "listEmployeeWise": []
+                    }
+                ]
+            }
+        ]
+    }
+]
