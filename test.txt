@@ -1,0 +1,35 @@
+#Recipe to generate recognition lists of serial numbers, system IDs and control numbers for Siebel and Nuvolo for phase 1B
+#Lists need to be regenerated periodically to account for new entries in the DBs
+
+#Prepare lists of IDs for each ID_TYPE/DB and separate Siebel in unique and ambiguous lists (only flagging within list ambiguity here; other ambiguity types will be returned as multiple-parses and handled approprietaly by the app)
+cut -d',' -f4 01JAN15TO30JUN16.xlsx | LANG=C sed 's/[\d128-\d255]//g' | awk '{print tolower($0)}' | sed -e "s/[^a-z0-9]//g" | sed -r '/^.{,2}$/d' | sed -r '/^.{21,}$/d' | sort | egrep -v "^(needed|na|exchange|unknown|none|notreqd|nsn|needserialnumber|dup|tbd|feverify|notreqrd|noserial|needserial|notavailable|nogecontract|need|nosn|notrqrd|notavail|noserial1|.*missing.*)$" > serial_numbers_Siebel_all.txt
+cat serial_numbers_Siebel_all.txt | uniq -c | grep "      1 " | sed 's/      1 //g' > list_serial_numbers_Siebel_unique.txt
+cat serial_numbers_Siebel_all.txt | uniq -d | sort -u > list_serial_numbers_Siebel_ambiguous.txt
+cat list_serial_numbers_Siebel_unique.txt | sed 's/a/2/g' | sed 's/b/2/g' | sed 's/c/2/g' | sed 's/d/3/g' | sed 's/e/3/g' | sed 's/f/3/g' | sed 's/g/4/g' | sed 's/h/4/g' | sed 's/i/4/g' | sed 's/j/5/g' | sed 's/k/5/g' | sed 's/l/5/g' | sed 's/m/6/g' | sed 's/n/6/g' | sed 's/o/6/g' | sed 's/p/7/g' | sed 's/q/7/g' | sed 's/r/7/g' | sed 's/s/7/g' | sed 's/t/8/g' | sed 's/u/8/g' | sed 's/v/8/g' | sed 's/w/9/g' | sed 's/x/9/g' | sed 's/y/9/g' | sed 's/z/9/g' | sort -u > list_serial_numbers_Siebel_unique_dtmf.txt
+cat list_serial_numbers_Siebel_ambiguous.txt | sed 's/a/2/g' | sed 's/b/2/g' | sed 's/c/2/g' | sed 's/d/3/g' | sed 's/e/3/g' | sed 's/f/3/g' | sed 's/g/4/g' | sed 's/h/4/g' | sed 's/i/4/g' | sed 's/j/5/g' | sed 's/k/5/g' | sed 's/l/5/g' | sed 's/m/6/g' | sed 's/n/6/g' | sed 's/o/6/g' | sed 's/p/7/g' | sed 's/q/7/g' | sed 's/r/7/g' | sed 's/s/7/g' | sed 's/t/8/g' | sed 's/u/8/g' | sed 's/v/8/g' | sed 's/w/9/g' | sed 's/x/9/g' | sed 's/y/9/g' | sed 's/z/9/g' | sort -u | sed 's/$/|1/g' | sed '1 i\UTF-8' > list_serial_numbers_Siebel_ambiguous_dtmf.txt
+
+cut -d',' -f3 01JAN15TO30JUN16.xlsx | LANG=C sed 's/[\d128-\d255]//g' | awk '{print tolower($0)}' | sed -e "s/[^a-z0-9]//g" | sed -r '/^.{,2}$/d' | sed -r '/^.{21,}$/d' | sort | egrep -v "^(createdinerror|createdinerror1)$" > system_ids_Siebel_all.txt
+cat system_ids_Siebel_all.txt | uniq -c | grep "      1 " | sed 's/      1 //g' > list_system_ids_Siebel_unique.txt
+cat system_ids_Siebel_all.txt | uniq -d | sort -u > list_system_ids_Siebel_ambiguous.txt
+cat list_system_ids_Siebel_unique.txt | sed 's/a/2/g' | sed 's/b/2/g' | sed 's/c/2/g' | sed 's/d/3/g' | sed 's/e/3/g' | sed 's/f/3/g' | sed 's/g/4/g' | sed 's/h/4/g' | sed 's/i/4/g' | sed 's/j/5/g' | sed 's/k/5/g' | sed 's/l/5/g' | sed 's/m/6/g' | sed 's/n/6/g' | sed 's/o/6/g' | sed 's/p/7/g' | sed 's/q/7/g' | sed 's/r/7/g' | sed 's/s/7/g' | sed 's/t/8/g' | sed 's/u/8/g' | sed 's/v/8/g' | sed 's/w/9/g' | sed 's/x/9/g' | sed 's/y/9/g' | sed 's/z/9/g' | sort -u | sed 's/$/|1/g' | sed '1 i\UTF-8' > list_system_ids_Siebel_unique_dtmf.txt
+cat list_system_ids_Siebel_ambiguous.txt | sed 's/a/2/g' | sed 's/b/2/g' | sed 's/c/2/g' | sed 's/d/3/g' | sed 's/e/3/g' | sed 's/f/3/g' | sed 's/g/4/g' | sed 's/h/4/g' | sed 's/i/4/g' | sed 's/j/5/g' | sed 's/k/5/g' | sed 's/l/5/g' | sed 's/m/6/g' | sed 's/n/6/g' | sed 's/o/6/g' | sed 's/p/7/g' | sed 's/q/7/g' | sed 's/r/7/g' | sed 's/s/7/g' | sed 's/t/8/g' | sed 's/u/8/g' | sed 's/v/8/g' | sed 's/w/9/g' | sed 's/x/9/g' | sed 's/y/9/g' | sed 's/z/9/g' | sort -u | sed 's/$/|1/g' | sed '1 i\UTF-8' > list_system_ids_Siebel_ambiguous_dtmf.txt
+
+cut -d',' -f8 01JAN15TO30JUN16.xlsx | LANG=C sed 's/[\d128-\d255]//g' | awk '{print tolower($0)}' | sed -e "s/[^a-z0-9]//g" | sed -r '/^.{,2}$/d' | sed -r '/^.{21,}$/d' | sort -u | egrep -v "^(nsn|na|none|unknown|noserial|nsn1|nosn|nsn2|nsn3|na2|nsn4|unavailable|pending|tbd|unk|none1|nsn5|na3|nsn6)$" > list_serial_numbers_Nuvolo.txt
+cat list_serial_numbers_Nuvolo.txt | sed 's/a/2/g' | sed 's/b/2/g' | sed 's/c/2/g' | sed 's/d/3/g' | sed 's/e/3/g' | sed 's/f/3/g' | sed 's/g/4/g' | sed 's/h/4/g' | sed 's/i/4/g' | sed 's/j/5/g' | sed 's/k/5/g' | sed 's/l/5/g' | sed 's/m/6/g' | sed 's/n/6/g' | sed 's/o/6/g' | sed 's/p/7/g' | sed 's/q/7/g' | sed 's/r/7/g' | sed 's/s/7/g' | sed 's/t/8/g' | sed 's/u/8/g' | sed 's/v/8/g' | sed 's/w/9/g' | sed 's/x/9/g' | sed 's/y/9/g' | sed 's/z/9/g' | sort -u | sed 's/$/|1/g' | sed '1 i\UTF-8' > list_serial_numbers_Nuvolo_dtmf.txt
+
+cut -d',' -f2 01JAN15TO30JUN16.xlsx | LANG=C sed 's/[\d128-\d255]//g' | awk '{print tolower($0)}' | sed -e "s/[^a-z0-9]//g" | sed -r '/^.{,2}$/d' | sed -r '/^.{21,}$/d' | sort -u > list_control_numbers_Nuvolo.txt
+cat list_control_numbers_Nuvolo.txt | sed 's/a/2/g' | sed 's/b/2/g' | sed 's/c/2/g' | sed 's/d/3/g' | sed 's/e/3/g' | sed 's/f/3/g' | sed 's/g/4/g' | sed 's/h/4/g' | sed 's/i/4/g' | sed 's/j/5/g' | sed 's/k/5/g' | sed 's/l/5/g' | sed 's/m/6/g' | sed 's/n/6/g' | sed 's/o/6/g' | sed 's/p/7/g' | sed 's/q/7/g' | sed 's/r/7/g' | sed 's/s/7/g' | sed 's/t/8/g' | sed 's/u/8/g' | sed 's/v/8/g' | sed 's/w/9/g' | sed 's/x/9/g' | sed 's/y/9/g' | sed 's/z/9/g' | sort -u | sed 's/$/|1/g' | sed '1 i\UTF-8' > list_control_numbers_Nuvolo_dtmf.txt
+
+#Copy these files to production servers
+	#list_serial_numbers_Siebel_unique.txt
+	#list_serial_numbers_Siebel_ambiguous.txt
+	#list_serial_numbers_Siebel_unique_dtmf.txt
+	#list_serial_numbers_Siebel_ambiguous_dtmf.txt
+	#list_system_ids_Siebel_unique.txt
+	#list_system_ids_Siebel_ambiguous.txt
+	#list_system_ids_Siebel_unique_dtmf.txt
+	#list_system_ids_Siebel_ambiguous_dtmf.txt
+	#list_serial_numbers_Nuvolo.txt
+	#list_serial_numbers_Nuvolo_dtmf.txt
+	#list_control_numbers_Nuvolo.txt
+	#list_control_numbers_Nuvolo_dtmf.txt
